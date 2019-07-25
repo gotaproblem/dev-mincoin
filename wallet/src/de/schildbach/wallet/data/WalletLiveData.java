@@ -17,7 +17,7 @@
 
 package de.schildbach.wallet.data;
 
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.wallet.Wallet;
 
 import de.schildbach.wallet.WalletApplication;
 

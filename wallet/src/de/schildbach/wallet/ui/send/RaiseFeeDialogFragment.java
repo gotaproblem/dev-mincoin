@@ -21,14 +21,14 @@ import static androidx.core.util.Preconditions.checkNotNull;
 
 import java.util.Map;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.crypto.KeyCrypterException;
-import org.bitcoinj.wallet.KeyChain.KeyPurpose;
-import org.bitcoinj.wallet.SendRequest;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Sha256Hash;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.TransactionOutput;
+import org.mincoinj.crypto.KeyCrypterException;
+import org.mincoinj.wallet.KeyChain.KeyPurpose;
+import org.mincoinj.wallet.SendRequest;
+import org.mincoinj.wallet.Wallet;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

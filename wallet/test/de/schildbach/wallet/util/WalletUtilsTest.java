@@ -19,8 +19,8 @@ package de.schildbach.wallet.util;
 
 import java.io.IOException;
 
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.params.TestNet3Params;
+import org.mincoinj.params.MainNetParams;
+import org.mincoinj.params.TestNet4Params;
 import org.junit.Test;
 
 /**
@@ -30,7 +30,7 @@ public class WalletUtilsTest {
     @Test
     public void restoreWalletFromProtobufOrBase58() throws Exception {
         WalletUtils.restoreWalletFromProtobuf(getClass().getResourceAsStream("backup-protobuf-testnet"),
-                TestNet3Params.get());
+                TestNet4Params.get());
     }
 
     @Test(expected = IOException.class)

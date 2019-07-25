@@ -3,5 +3,10 @@
     android:opacity="opaque" >
 
     <item android:drawable="@color/bg_less_bright"/>
+    <item
+        android:gravity="center"
+        >
+        <bitmap android:src="@mipmap/ic_launcher" />
+    </item>
 
 </layer-list>

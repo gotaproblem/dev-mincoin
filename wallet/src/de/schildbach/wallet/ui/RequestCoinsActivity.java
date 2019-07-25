@@ -17,7 +17,7 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.script.Script;
+import org.mincoinj.script.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

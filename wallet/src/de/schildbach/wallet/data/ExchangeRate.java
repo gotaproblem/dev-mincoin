@@ -23,14 +23,14 @@ import static androidx.core.util.Preconditions.checkNotNull;
  * @author Andreas Schildbach
  */
 public class ExchangeRate {
-    public ExchangeRate(final org.bitcoinj.utils.ExchangeRate rate, final String source) {
+    public ExchangeRate(final org.mincoinj.utils.ExchangeRate rate, final String source) {
         checkNotNull(rate.fiat.currencyCode);
 
         this.rate = rate;
         this.source = source;
     }
 
-    public final org.bitcoinj.utils.ExchangeRate rate;
+    public final org.mincoinj.utils.ExchangeRate rate;
     public final String source;
 
     public String getCurrencyCode() {

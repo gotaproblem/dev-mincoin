@@ -9,17 +9,17 @@
             android:targetClass="de.schildbach.wallet.ui.SendCoinsQrActivity"
             android:targetPackage="de.schildbach.wallet_test" />
     </shortcut>
+
+    <Button
+        android:id="@+id/send_coins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send_coins"
+        android:onClick="de.schildbach.wallet.ui.send.SendCoinsActivity" >
+    </Button>
+
     <shortcut
-        android:icon="@drawable/shortcut_send_coins"
-        android:shortcutId="send_coins"
-        android:shortcutShortLabel="@string/button_send_coins" >
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="de.schildbach.wallet.ui.send.SendCoinsActivity"
-            android:targetPackage="de.schildbach.wallet_test" />
-    </shortcut>
-    <shortcut
-        android:icon="@drawable/shortcut_request_coins"
+
         android:shortcutId="request_coins"
         android:shortcutShortLabel="@string/button_request_coins" >
         <intent

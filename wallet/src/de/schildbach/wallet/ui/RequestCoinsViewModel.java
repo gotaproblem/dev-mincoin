@@ -17,12 +17,12 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.protocols.payments.PaymentProtocol;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.uri.BitcoinURI;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.Coin;
+import org.mincoinj.protocols.payments.PaymentProtocol;
+import org.mincoinj.script.Script;
+import org.mincoinj.uri.BitcoinURI;
+import org.mincoinj.wallet.Wallet;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
@@ -202,7 +202,7 @@ public class RequestCoinsViewModel extends AndroidViewModel {
                 AsyncTask.execute(new Runnable() {
                     @Override
                     public void run() {
-                        org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                        org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                         postValue(outputScriptType != null ? wallet.freshReceiveAddress(outputScriptType)
                                 : wallet.freshReceiveAddress());
                     }

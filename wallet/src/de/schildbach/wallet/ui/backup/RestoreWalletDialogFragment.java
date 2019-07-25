@@ -30,8 +30,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Coin;
+import org.mincoinj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

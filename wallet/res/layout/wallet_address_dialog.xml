@@ -9,7 +9,7 @@
         android:id="@+id/wallet_address_dialog_image"
         android:layout_width="@dimen/bitmap_dialog_qr_size"
         android:layout_height="@dimen/bitmap_dialog_qr_size"
-        android:background="@color/bg_bright"
+        android:background="@color/bg_white"
         android:contentDescription="@null"
         android:keepScreenOn="true"
         android:padding="6dp"
@@ -41,7 +41,7 @@
             android:paddingLeft="@dimen/list_entry_padding_horizontal"
             android:paddingRight="@dimen/list_entry_padding_horizontal"
             android:text="@string/wallet_address_dialog_fragment_hint"
-            android:textColor="@color/fg_less_significant"
+            android:textColor="@color/fg_significant"
             android:textSize="@dimen/font_size_tiny" />
     </LinearLayout>
 

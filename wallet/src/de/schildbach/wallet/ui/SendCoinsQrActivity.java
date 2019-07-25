@@ -17,9 +17,9 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.PrefixedChecksummedBytes;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.VerificationException;
+import org.mincoinj.core.PrefixedChecksummedBytes;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.VerificationException;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;

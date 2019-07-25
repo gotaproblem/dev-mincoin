@@ -85,10 +85,10 @@
             android:id="@+id/backup_wallet_dialog_warning_encrypted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/list_entry_padding_vertical_lax"
             android:layout_marginTop="@dimen/list_entry_padding_vertical_lax"
+            android:layout_marginBottom="@dimen/list_entry_padding_vertical_lax"
             android:text="@string/backup_wallet_dialog_warning_encrypted"
-            android:textColor="@color/fg_less_significant"
+            android:textColor="@color/fg_significant"
             android:textSize="@dimen/font_size_small" />
     </LinearLayout>
 

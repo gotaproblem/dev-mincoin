@@ -21,8 +21,8 @@ import static androidx.core.util.Preconditions.checkArgument;
 
 import java.util.regex.Matcher;
 
-import org.bitcoinj.core.Monetary;
-import org.bitcoinj.utils.MonetaryFormat;
+import org.mincoinj.core.Monetary;
+import org.mincoinj.utils.MonetaryFormat;
 
 import de.schildbach.wallet.Constants;
 

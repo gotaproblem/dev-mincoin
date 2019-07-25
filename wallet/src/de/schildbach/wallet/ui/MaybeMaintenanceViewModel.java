@@ -19,9 +19,9 @@ package de.schildbach.wallet.ui;
 
 import java.util.List;
 
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.wallet.DeterministicUpgradeRequiresPassword;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.wallet.DeterministicUpgradeRequiresPassword;
+import org.mincoinj.wallet.Wallet;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -98,7 +98,7 @@ public class MaybeMaintenanceViewModel extends AndroidViewModel {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                    org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                     try {
                         final ListenableFuture<List<Transaction>> result = wallet.doMaintenance(null, false);
                         postValue(!result.get().isEmpty());

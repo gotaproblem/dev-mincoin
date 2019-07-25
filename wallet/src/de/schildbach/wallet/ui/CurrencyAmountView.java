@@ -17,9 +17,9 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Monetary;
-import org.bitcoinj.utils.MonetaryFormat;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Monetary;
+import org.mincoinj.utils.MonetaryFormat;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.R;
@@ -83,7 +83,8 @@ public final class CurrencyAmountView extends FrameLayout {
 
     private void init(final Context context) {
         significantColor = ContextCompat.getColor(context, R.color.fg_significant);
-        lessSignificantColor = ContextCompat.getColor(context, R.color.fg_less_significant);
+        //lessSignificantColor = ContextCompat.getColor(context, R.color.fg_less_significant);
+        lessSignificantColor = ContextCompat.getColor(context, R.color.fg_significant);
         errorColor = ContextCompat.getColor(context, R.color.fg_error);
         deleteButtonDrawable = ContextCompat.getDrawable(context, R.drawable.ic_clear_grey600_24dp);
     }
@@ -120,8 +121,9 @@ public final class CurrencyAmountView extends FrameLayout {
 
     public void setCurrencySymbol(@Nullable final String currencyCode) {
         final String bitcoinSymbol = Character.toString(Constants.CHAR_BITCOIN);
-        final boolean hasBitcoinSymbol = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && textView.getPaint().hasGlyph(bitcoinSymbol);
+        //final boolean hasBitcoinSymbol = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+        //        && textView.getPaint().hasGlyph(bitcoinSymbol);
+        final boolean hasBitcoinSymbol = false; /* cryptodad Jun 2019 - mincoin doesn't have a unicode character */
         final float textSize = textView.getTextSize();
         final float smallerTextSize = textSize * (20f / 24f);
         final float offset = textSize * 0.37f;
@@ -130,21 +132,28 @@ public final class CurrencyAmountView extends FrameLayout {
                 currencySymbolDrawable = new CurrencySymbolDrawable(bitcoinSymbol, smallerTextSize,
                         lessSignificantColor, offset);
             else
-                currencySymbolDrawable = ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_btc);
+                currencySymbolDrawable = ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_mnc);
             localCurrencyCode = null;
         } else if (MonetaryFormat.CODE_MBTC.equals(currencyCode)) {
             if (hasBitcoinSymbol)
                 currencySymbolDrawable = new CurrencySymbolDrawable("m" + bitcoinSymbol, smallerTextSize,
                         lessSignificantColor, offset);
-            else
-                currencySymbolDrawable = ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_mbtc);
+            else {
+                //currencySymbolDrawable = ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_mbtc);
+                currencySymbolDrawable = new CurrencySymbolDrawable("m" + ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_mnc), smallerTextSize,
+                        lessSignificantColor, offset);
+            }
+
             localCurrencyCode = null;
         } else if (MonetaryFormat.CODE_UBTC.equals(currencyCode)) {
             if (hasBitcoinSymbol)
                 currencySymbolDrawable = new CurrencySymbolDrawable("µ" + bitcoinSymbol, smallerTextSize,
                         lessSignificantColor, offset);
-            else
-                currencySymbolDrawable = ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_ubtc);
+            else {
+                //currencySymbolDrawable = ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_ubtc);
+                currencySymbolDrawable = new CurrencySymbolDrawable("µ" + ContextCompat.getDrawable(getContext(), R.drawable.currency_symbol_mnc), smallerTextSize,
+                        lessSignificantColor, offset);
+            }
             localCurrencyCode = null;
         } else if (currencyCode != null) {
             currencySymbolDrawable = new CurrencySymbolDrawable(GenericUtils.currencySymbol(currencyCode),
@@ -232,9 +241,10 @@ public final class CurrencyAmountView extends FrameLayout {
     }
 
     public void setStrikeThru(final boolean strikeThru) {
-        if (strikeThru)
-            textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        else
+        /* cryptodad Jul 2019 - not using strike through */
+       // if (strikeThru)
+       //     textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+       // else
             textView.setPaintFlags(textView.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
     }
 

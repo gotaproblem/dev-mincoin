@@ -17,9 +17,9 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.NetworkParameters;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.AddressFormatException;
+import org.mincoinj.core.NetworkParameters;
 
 import com.google.common.base.Objects;
 

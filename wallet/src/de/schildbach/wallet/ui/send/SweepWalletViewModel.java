@@ -17,9 +17,9 @@
 
 package de.schildbach.wallet.ui.send;
 
-import org.bitcoinj.core.PrefixedChecksummedBytes;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.PrefixedChecksummedBytes;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.wallet.Wallet;
 
 import de.schildbach.wallet.WalletApplication;
 import de.schildbach.wallet.data.DynamicFeeLiveData;

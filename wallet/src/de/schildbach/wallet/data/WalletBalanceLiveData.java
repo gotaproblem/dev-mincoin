@@ -17,15 +17,15 @@
 
 package de.schildbach.wallet.data;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.Wallet.BalanceType;
-import org.bitcoinj.wallet.listeners.WalletChangeEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
-import org.bitcoinj.wallet.listeners.WalletReorganizeEventListener;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.utils.Threading;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.Wallet.BalanceType;
+import org.mincoinj.wallet.listeners.WalletChangeEventListener;
+import org.mincoinj.wallet.listeners.WalletCoinsReceivedEventListener;
+import org.mincoinj.wallet.listeners.WalletCoinsSentEventListener;
+import org.mincoinj.wallet.listeners.WalletReorganizeEventListener;
 
 import de.schildbach.wallet.Configuration;
 import de.schildbach.wallet.Constants;
@@ -86,7 +86,7 @@ public final class WalletBalanceLiveData extends AbstractWalletLiveData<Coin>
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                 postValue(wallet.getBalance(balanceType));
             }
         });

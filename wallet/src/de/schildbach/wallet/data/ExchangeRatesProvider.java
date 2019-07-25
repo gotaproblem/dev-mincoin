@@ -18,6 +18,7 @@
 package de.schildbach.wallet.data;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.Iterator;
@@ -25,9 +26,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.utils.Fiat;
-import org.bitcoinj.utils.MonetaryFormat;
+import org.mincoinj.core.Coin;
+import org.mincoinj.utils.Fiat;
+import org.mincoinj.utils.MonetaryFormat;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,8 +78,16 @@ public class ExchangeRatesProvider extends ContentProvider {
     private long lastUpdated = 0;
 
     private static final HttpUrl BITCOINAVERAGE_URL = HttpUrl
-            .parse("https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC");
+           // .parse("https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC"); /* cryptodad Jul 2019 - a lot of fiat */
+            //.parse("https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTCUSD"); /* cryptodad Jul 2019 - USD only whilst debugging / testnet */
+            .parse("https://www.mincoinexplorer.com/aw/exchange-rates"); /* cryptodad Jul 2019 - use own server */
+
+    private static final HttpUrl MNC_EXCHANGE_URL = HttpUrl
+            //.parse("https://tradesatoshi.com/api/public/getticker?market=MNC_BTC");
+            .parse("https://www.mincoinexplorer.com/aw/mnc-value");
+
     private static final String BITCOINAVERAGE_SOURCE = "BitcoinAverage.com";
+    private static final String MNC_EXCHANGE_SOURCE = "tradesatoshi.com";
 
     private static final long UPDATE_FREQ_MS = 10 * DateUtils.MINUTE_IN_MILLIS;
 
@@ -146,7 +155,7 @@ public class ExchangeRatesProvider extends ContentProvider {
         if (selection == null) {
             for (final Map.Entry<String, ExchangeRate> entry : exchangeRates.entrySet()) {
                 final ExchangeRate exchangeRate = entry.getValue();
-                final org.bitcoinj.utils.ExchangeRate rate = exchangeRate.rate;
+                final org.mincoinj.utils.ExchangeRate rate = exchangeRate.rate;
                 final String currencyCode = exchangeRate.getCurrencyCode();
                 cursor.newRow().add(currencyCode.hashCode()).add(currencyCode).add(rate.coin.value).add(rate.fiat.value)
                         .add(exchangeRate.source);
@@ -155,7 +164,7 @@ public class ExchangeRatesProvider extends ContentProvider {
             final String selectionArg = selectionArgs[0].toLowerCase(Locale.US);
             for (final Map.Entry<String, ExchangeRate> entry : exchangeRates.entrySet()) {
                 final ExchangeRate exchangeRate = entry.getValue();
-                final org.bitcoinj.utils.ExchangeRate rate = exchangeRate.rate;
+                final org.mincoinj.utils.ExchangeRate rate = exchangeRate.rate;
                 final String currencyCode = exchangeRate.getCurrencyCode();
                 final String currencySymbol = GenericUtils.currencySymbol(currencyCode);
                 if (currencyCode.toLowerCase(Locale.US).contains(selectionArg)
@@ -167,7 +176,7 @@ public class ExchangeRatesProvider extends ContentProvider {
             final String selectionArg = selectionArgs[0];
             final ExchangeRate exchangeRate = bestExchangeRate(selectionArg);
             if (exchangeRate != null) {
-                final org.bitcoinj.utils.ExchangeRate rate = exchangeRate.rate;
+                final org.mincoinj.utils.ExchangeRate rate = exchangeRate.rate;
                 final String currencyCode = exchangeRate.getCurrencyCode();
                 cursor.newRow().add(currencyCode.hashCode()).add(currencyCode).add(rate.coin.value).add(rate.fiat.value)
                         .add(exchangeRate.source);
@@ -208,7 +217,7 @@ public class ExchangeRatesProvider extends ContentProvider {
                 cursor.getLong(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_RATE_FIAT)));
         final String source = cursor.getString(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_SOURCE));
 
-        return new ExchangeRate(new org.bitcoinj.utils.ExchangeRate(rateCoin, rateFiat), source);
+        return new ExchangeRate(new org.mincoinj.utils.ExchangeRate(rateCoin, rateFiat), source);
     }
 
     @Override
@@ -231,6 +240,67 @@ public class ExchangeRatesProvider extends ContentProvider {
         throw new UnsupportedOperationException();
     }
 
+    /* cryptodad Jun 2019 - add MNC exchange */
+    private Object getMNCvalue() {
+        final Stopwatch watch = Stopwatch.createStarted();
+
+        final Request.Builder request = new Request.Builder();
+        request.url(MNC_EXCHANGE_URL);
+        request.header("User-Agent", userAgent);
+
+        final Builder httpClientBuilder = Constants.HTTP_CLIENT.newBuilder();
+        httpClientBuilder.connectionSpecs(Arrays.asList(ConnectionSpec.RESTRICTED_TLS));
+        final Call call = httpClientBuilder.build().newCall(request.build());
+        try {
+            final Response response = call.execute();
+            if (response.isSuccessful()) {
+                //Fiat value = null;
+                Object value = null;
+                final String content = response.body().string();
+                final JSONObject head = new JSONObject(content);
+                final Map<String, ExchangeRate> rates = new TreeMap<String, ExchangeRate>();
+
+                for (final Iterator<String> i = head.keys(); i.hasNext();) {
+                    final String ok = i.next();
+                        //log.info ("code = " + currencyCode);
+                    //if (currencyCode.startsWith("BTC")) {
+                        //final String fiatCurrencyCode = currencyCode.substring(3);
+                        //if (!fiatCurrencyCode.equals(MonetaryFormat.CODE_BTC)
+                        //        && !fiatCurrencyCode.equals(MonetaryFormat.CODE_MBTC)
+                        //        && !fiatCurrencyCode.equals(MonetaryFormat.CODE_UBTC)) {
+                            final JSONObject exchangeRecord = head.getJSONObject("result");
+                            log.info ( "exchangeRecord = " + exchangeRecord);
+                            try {
+                                value = exchangeRecord.get("last");
+                                //log.info("value = " + value);
+                                //if (value.signum() > 0)
+                                //    rates.put("USD", new ExchangeRate(
+                                 //           new org.mincoinj.utils.ExchangeRate(value), MNC_EXCHANGE_SOURCE));
+                            } catch (final IllegalArgumentException x) {
+                                log.warn("problem fetching {} exchange rate from {}: {}", ok,
+                                        MNC_EXCHANGE_URL, x.getMessage());
+                            }
+                        //}
+                    //}
+                }
+
+                watch.stop();
+                log.info("fetched exchange rates from {}, {} chars, took {}", MNC_EXCHANGE_URL, content.length(),
+                        watch);
+                log.info( "tradesatoshi value = " + value );
+
+                return value;
+            } else {
+                log.warn("http status {} when fetching exchange rates from {}", response.code(), MNC_EXCHANGE_URL);
+            }
+        } catch (final Exception x) {
+            log.warn("problem fetching exchange rates from " + MNC_EXCHANGE_URL, x);
+        }
+
+        return null;
+    }
+    /* cryptodad Jun 2019 end */
+
     private Map<String, ExchangeRate> requestExchangeRates() {
         final Stopwatch watch = Stopwatch.createStarted();
 
@@ -244,6 +314,7 @@ public class ExchangeRatesProvider extends ContentProvider {
         try {
             final Response response = call.execute();
             if (response.isSuccessful()) {
+                //final Fiat rate;
                 final String content = response.body().string();
                 final JSONObject head = new JSONObject(content);
                 final Map<String, ExchangeRate> rates = new TreeMap<String, ExchangeRate>();
@@ -257,10 +328,31 @@ public class ExchangeRatesProvider extends ContentProvider {
                                 && !fiatCurrencyCode.equals(MonetaryFormat.CODE_UBTC)) {
                             final JSONObject exchangeRate = head.getJSONObject(currencyCode);
                             try {
-                                final Fiat rate = parseFiatInexact(fiatCurrencyCode, exchangeRate.getString("last"));
-                                if (rate.signum() > 0)
+                                //final Fiat rate = parseFiatInexact(fiatCurrencyCode, exchangeRate.getString("last"));
+                                Double sum = 0.0;
+                                Object value = exchangeRate.get("last");
+                                Double mnc = (Double)getMNCvalue();
+
+                                sum = (Double)value * mnc;
+
+                                final Fiat rate = parseFiatInexact(fiatCurrencyCode, sum.toString() );
+
+                                //log.info ( "rate = " + rate.getValue() );
+                               // long r = rate.getValue() / 10000;
+                                // * 1000000000;
+                                //log.info ( "r = " + r );
+                                //log.info ( "m = " + m );
+                                //double sum = (r * m);
+                                //log.info ( "sum = " + sum );
+                                //rate.multiply( sum );
+                                //log.info ( "rate = " + rate.getValue() );
+
+                                //rate.divide( 10000 );
+                                //if (rate.signum() > 0)
                                     rates.put(fiatCurrencyCode, new ExchangeRate(
-                                            new org.bitcoinj.utils.ExchangeRate(rate), BITCOINAVERAGE_SOURCE));
+                                            new org.mincoinj.utils.ExchangeRate( rate ), BITCOINAVERAGE_SOURCE));
+
+
                             } catch (final IllegalArgumentException x) {
                                 log.warn("problem fetching {} exchange rate from {}: {}", currencyCode,
                                         BITCOINAVERAGE_URL, x.getMessage());
@@ -273,6 +365,13 @@ public class ExchangeRatesProvider extends ContentProvider {
                 log.info("fetched exchange rates from {}, {} chars, took {}", BITCOINAVERAGE_URL, content.length(),
                         watch);
 
+                //log.info( "getMNCvalue = " + getMNCvalue() );
+                //log.info( "rates = " + rates);
+
+                //return rates;
+
+                //rates.put( fiatCurrencyCode, new ExchangeRate(
+                //                  new org.mincoinj.utils.ExchangeRate(rate), BITCOINAVERAGE_SOURCE));
                 return rates;
             } else {
                 log.warn("http status {} when fetching exchange rates from {}", response.code(), BITCOINAVERAGE_URL);
@@ -284,7 +383,7 @@ public class ExchangeRatesProvider extends ContentProvider {
         return null;
     }
 
-    // backport from bitcoinj 0.15
+    // backport from mincoinj 0.15
     private static Fiat parseFiatInexact(final String currencyCode, final String str) {
         final long val = new BigDecimal(str).movePointRight(Fiat.SMALLEST_UNIT_EXPONENT).longValue();
         return Fiat.valueOf(currencyCode, val);

@@ -28,22 +28,22 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.bitcoin.protocols.payments.Protos;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.DumpedPrivateKey;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.core.PrefixedChecksummedBytes;
-import org.bitcoinj.core.ProtocolException;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.crypto.BIP38PrivateKey;
-import org.bitcoinj.crypto.TrustStoreLoader;
-import org.bitcoinj.protocols.payments.PaymentProtocol;
-import org.bitcoinj.protocols.payments.PaymentProtocol.PkiVerificationData;
-import org.bitcoinj.protocols.payments.PaymentProtocolException;
-import org.bitcoinj.protocols.payments.PaymentSession;
-import org.bitcoinj.uri.BitcoinURI;
-import org.bitcoinj.uri.BitcoinURIParseException;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.AddressFormatException;
+import org.mincoinj.core.DumpedPrivateKey;
+import org.mincoinj.core.LegacyAddress;
+import org.mincoinj.core.PrefixedChecksummedBytes;
+import org.mincoinj.core.ProtocolException;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.VerificationException;
+import org.mincoinj.crypto.BIP38PrivateKey;
+import org.mincoinj.crypto.TrustStoreLoader;
+import org.mincoinj.protocols.payments.PaymentProtocol;
+import org.mincoinj.protocols.payments.PaymentProtocol.PkiVerificationData;
+import org.mincoinj.protocols.payments.PaymentProtocolException;
+import org.mincoinj.protocols.payments.PaymentSession;
+import org.mincoinj.uri.BitcoinURI;
+import org.mincoinj.uri.BitcoinURIParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +76,7 @@ public abstract class InputParser {
 
         @Override
         public void parse() {
-            if (input.startsWith("BITCOIN:-")) {
+            if (input.startsWith("MINCOIN:-")) {
                 try {
                     final byte[] serializedPaymentRequest = Qr.decodeBinary(input.substring(9));
 
@@ -94,18 +94,21 @@ public abstract class InputParser {
 
                     error(R.string.input_parser_invalid_paymentrequest, x.getMessage());
                 }
-            } else if (input.startsWith("bitcoin:") || input.startsWith("BITCOIN:")) {
+            } else if (input.startsWith("mincoin:") || input.startsWith("MINCOIN:")) {
                 try {
-                    final BitcoinURI bitcoinUri = new BitcoinURI(null, "bitcoin:" + input.substring(8));
+
+                    /* cryptodad Jul 2019 - for efficiency and a crash issue, pass the network */
+                    //final BitcoinURI bitcoinUri = new BitcoinURI(null, "mincoin:" + input.substring(8));
+                    final BitcoinURI bitcoinUri = new BitcoinURI(Constants.NETWORK_PARAMETERS, "mincoin:" + input.substring(8));
                     final Address address = bitcoinUri.getAddress();
                     if (address != null && !Constants.NETWORK_PARAMETERS.equals(address.getParameters()))
                         throw new BitcoinURIParseException("mismatched network");
 
                     handlePaymentIntent(PaymentIntent.fromBitcoinUri(bitcoinUri));
                 } catch (final BitcoinURIParseException x) {
-                    log.info("got invalid bitcoin uri: '" + input + "'", x);
+                    log.info("got invalid mincoin uri: '" + input + "'", x);
 
-                    error(R.string.input_parser_invalid_bitcoin_uri, input);
+                    error(R.string.input_parser_invalid_mincoin_uri, input);
                 }
             } else if (PATTERN_TRANSACTION.matcher(input).matches()) {
                 try {

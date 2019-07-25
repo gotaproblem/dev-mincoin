@@ -17,9 +17,9 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.protocols.payments.PaymentProtocol;
-import org.bitcoinj.script.Script;
+import org.mincoinj.core.Address;
+import org.mincoinj.protocols.payments.PaymentProtocol;
+import org.mincoinj.script.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

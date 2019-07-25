@@ -17,8 +17,8 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.script.Script;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.script.Script;
+import org.mincoinj.wallet.Wallet;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
@@ -115,7 +115,7 @@ public class WalletActivityViewModel extends AndroidViewModel implements OnFirst
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                    org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                     postValue(wallet.isEncrypted());
                 }
             });
@@ -138,7 +138,7 @@ public class WalletActivityViewModel extends AndroidViewModel implements OnFirst
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                    org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                     postValue(wallet.getActiveKeyChain().getOutputScriptType() == Script.ScriptType.P2WPKH
                             && wallet.getActiveKeyChains().get(0).getOutputScriptType() != Script.ScriptType.P2WPKH);
                 }

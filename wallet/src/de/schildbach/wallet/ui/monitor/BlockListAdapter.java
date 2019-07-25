@@ -25,14 +25,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.Transaction.Purpose;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Sha256Hash;
+import org.mincoinj.core.StoredBlock;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.Transaction.Purpose;
+import org.mincoinj.utils.MonetaryFormat;
+import org.mincoinj.wallet.Wallet;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.R;

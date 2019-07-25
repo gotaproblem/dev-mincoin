@@ -21,9 +21,9 @@ import static androidx.core.util.Preconditions.checkNotNull;
 
 import java.io.IOException;
 
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.VerificationException;
+import org.mincoinj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

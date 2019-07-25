@@ -51,7 +51,7 @@ public class TestNet4Params extends AbstractBitcoinNetParams {
         addressHeader = 111;
         p2shHeader = 196;
         dumpedPrivateKeyHeader = 239;
-        segwitAddressHrp = "tb";
+        segwitAddressHrp = "tb";                /* cryptodad Jul 2019 - this requires bech32 which isn't implemented until bitcoin 0.16 */
         genesisBlock.setTime(1550577517L);
         genesisBlock.setDifficultyTarget(0x1f00ffffL);
         genesisBlock.setNonce(385474691);

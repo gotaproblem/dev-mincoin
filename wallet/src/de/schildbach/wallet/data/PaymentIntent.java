@@ -21,18 +21,18 @@ import static androidx.core.util.Preconditions.checkArgument;
 
 import java.util.Arrays;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.protocols.payments.PaymentProtocol;
-import org.bitcoinj.protocols.payments.PaymentProtocolException;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptBuilder;
-import org.bitcoinj.script.ScriptException;
-import org.bitcoinj.script.ScriptPattern;
-import org.bitcoinj.uri.BitcoinURI;
-import org.bitcoinj.wallet.SendRequest;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.AddressFormatException;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.protocols.payments.PaymentProtocol;
+import org.mincoinj.protocols.payments.PaymentProtocolException;
+import org.mincoinj.script.Script;
+import org.mincoinj.script.ScriptBuilder;
+import org.mincoinj.script.ScriptException;
+import org.mincoinj.script.ScriptPattern;
+import org.mincoinj.uri.BitcoinURI;
+import org.mincoinj.wallet.SendRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -17,7 +17,7 @@
 
 package de.schildbach.wallet.ui.send;
 
-import org.bitcoinj.core.Coin;
+import org.mincoinj.core.Coin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -22,12 +22,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.listeners.KeyChainEventListener;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.ECKey;
+import org.mincoinj.core.LegacyAddress;
+import org.mincoinj.utils.Threading;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.listeners.KeyChainEventListener;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;

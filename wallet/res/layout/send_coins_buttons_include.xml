@@ -14,8 +14,10 @@
         android:layout_weight="1"
         android:background="?android:attr/selectableItemBackground"
         android:maxLines="2"
-        android:textAllCaps="false"
-        android:textSize="@dimen/font_size_small" />
+        android:textAllCaps="true"
+        android:textSize="@dimen/font_size_tiny"
+        android:textColor="@color/wallet_warning_text"
+         />
 
     <Button
         android:id="@+id/send_coins_go"
@@ -25,8 +27,9 @@
         android:layout_weight="1"
         android:background="?android:attr/selectableItemBackground"
         android:maxLines="2"
-        android:textAllCaps="false"
-        android:textSize="@dimen/font_size_small"
-        android:textStyle="bold" />
+        android:textAllCaps="true"
+        android:textSize="@dimen/font_size_tiny"
+        android:textColor="@color/wallet_warning_text"
+         />
 
 </LinearLayout>

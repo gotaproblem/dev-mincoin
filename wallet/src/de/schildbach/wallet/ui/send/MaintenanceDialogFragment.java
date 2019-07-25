@@ -20,12 +20,12 @@ package de.schildbach.wallet.ui.send;
 import java.util.Collections;
 import java.util.List;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.crypto.KeyCrypterException;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.bitcoinj.wallet.DeterministicUpgradeRequiresPassword;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.crypto.KeyCrypterException;
+import org.mincoinj.utils.MonetaryFormat;
+import org.mincoinj.wallet.DeterministicUpgradeRequiresPassword;
+import org.mincoinj.wallet.Wallet;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -231,7 +231,7 @@ public class MaintenanceDialogFragment extends DialogFragment {
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                org.mincoinj.core.Context.propagate(Constants.CONTEXT);
 
                 try {
                     wallet.doMaintenance(encryptionKey, true);

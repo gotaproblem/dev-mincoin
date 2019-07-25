@@ -20,10 +20,10 @@ package de.schildbach.wallet.ui;
 import java.util.List;
 import java.util.Locale;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.uri.BitcoinURI;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.LegacyAddress;
+import org.mincoinj.uri.BitcoinURI;
+import org.mincoinj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -210,7 +210,7 @@ public final class WalletAddressesFragment extends FancyListFragment {
             }
 
             private void handleCopyToClipboard(final Address address) {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText("Bitcoin address", address.toString()));
+                clipboardManager.setPrimaryClip(ClipData.newPlainText("Mincoin address", address.toString()));
                 log.info("wallet address copied to clipboard: {}", address);
                 new Toast(activity).toast(R.string.wallet_address_fragment_clipboard_msg);
             }

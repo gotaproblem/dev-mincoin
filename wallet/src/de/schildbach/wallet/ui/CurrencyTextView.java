@@ -17,8 +17,8 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.Monetary;
-import org.bitcoinj.utils.MonetaryFormat;
+import org.mincoinj.core.Monetary;
+import org.mincoinj.utils.MonetaryFormat;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.R;
@@ -100,9 +100,9 @@ public final class CurrencyTextView extends TextView {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        setPrefixColor(ContextCompat.getColor(getContext(), R.color.fg_less_significant));
+        setPrefixColor(ContextCompat.getColor(getContext(), R.color.currency_font)); //fg_less_significant));
         setPrefixScaleX(1);
-        setInsignificantRelativeSize(0.85f);
+        setInsignificantRelativeSize(0.5f); /* cryptodad Jul 2019 - was 0.85f this defines the balance digit size after 2 decimal places */
         setSingleLine();
     }
 

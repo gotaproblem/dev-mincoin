@@ -19,9 +19,9 @@ package de.schildbach.wallet.ui.preference;
 
 import java.util.Locale;
 
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.wallet.DeterministicKeyChain;
+import org.mincoinj.crypto.DeterministicKey;
+import org.mincoinj.script.Script;
+import org.mincoinj.wallet.DeterministicKeyChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -20,14 +20,14 @@ package de.schildbach.wallet;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Context;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.params.TestNet3Params;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.store.SPVBlockStore;
-import org.bitcoinj.utils.MonetaryFormat;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Context;
+import org.mincoinj.core.NetworkParameters;
+import org.mincoinj.params.MainNetParams;
+import org.mincoinj.params.TestNet4Params;
+import org.mincoinj.script.Script;
+import org.mincoinj.store.SPVBlockStore;
+import org.mincoinj.utils.MonetaryFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +47,7 @@ public final class Constants {
     public static final boolean TEST = true;
 
     /** Network this wallet is on (e.g. testnet or mainnet). */
-    public static final NetworkParameters NETWORK_PARAMETERS = TEST ? TestNet3Params.get() : MainNetParams.get();
+    public static final NetworkParameters NETWORK_PARAMETERS = TEST ? TestNet4Params.get() : MainNetParams.get();
 
     /** Bitcoinj global context. */
     public static final Context CONTEXT = new Context(NETWORK_PARAMETERS);
@@ -56,13 +56,18 @@ public final class Constants {
      * The type of Bitcoin addresses used for the initial wallet: {@link Script.ScriptType#P2PKH} for classic
      * Base58, {@link Script.ScriptType#P2WPKH} for segwit Bech32.
      */
-    public static final Script.ScriptType DEFAULT_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2WPKH;
+
+    //public static final Script.ScriptType DEFAULT_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2WPKH; /* cryptodad Jun 2019 - for now use classic until segwit is active after 0.16 */
+    public static final Script.ScriptType DEFAULT_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2PKH;
+    //public static final Script.ScriptType DEFAULT_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2WPKH; /* cryptodad Jul 2019 - segwit went active on testnet4 16/07/2019 */
 
     /**
      * The type of Bitcoin addresses to upgrade the current wallet to: {@link Script.ScriptType#P2PKH} for classic
      * Base58, {@link Script.ScriptType#P2WPKH} for segwit Bech32.
      */
-    public static final Script.ScriptType UPGRADE_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2WPKH;
+    //public static final Script.ScriptType UPGRADE_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2WPKH; /* cryptodad Jun 2019 - for now use classic until segwit is active after 0.16  */
+    public static final Script.ScriptType UPGRADE_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2PKH;
+    //public static final Script.ScriptType UPGRADE_OUTPUT_SCRIPT_TYPE = Script.ScriptType.P2WPKH; /* cryptodad Jul 2019 - segwit went active on testnet4 16/07/2019 */
 
     /** Enable switch for synching of the blockchain */
     public static final boolean ENABLE_BLOCKCHAIN_SYNC = true;
@@ -97,13 +102,13 @@ public final class Constants {
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
         /** Filename of the manual wallet backup. */
-        public static final String EXTERNAL_WALLET_BACKUP = "bitcoin-wallet-backup" + FILENAME_NETWORK_SUFFIX;
+        public static final String EXTERNAL_WALLET_BACKUP = "mincoin-wallet-backup" + FILENAME_NETWORK_SUFFIX;
 
         /** Filename of the block store for storing the chain. */
         public static final String BLOCKCHAIN_FILENAME = "blockchain" + FILENAME_NETWORK_SUFFIX;
 
         /** Capacity of the block store. */
-        public static final int BLOCKCHAIN_STORE_CAPACITY = SPVBlockStore.DEFAULT_CAPACITY * 2;
+        public static final int BLOCKCHAIN_STORE_CAPACITY = SPVBlockStore.DEFAULT_CAPACITY;// * 2; /* cryptodad Jul 2019 - reduce size to reduce latency with wallet tx page */
 
         /** Filename of the block checkpoints file. */
         public static final String CHECKPOINTS_FILENAME = "checkpoints" + FILENAME_NETWORK_SUFFIX + ".txt";
@@ -116,32 +121,33 @@ public final class Constants {
     }
 
     /** URL to fetch version alerts from. */
-    public static final HttpUrl VERSION_URL = HttpUrl.parse("https://wallet.schildbach.de/version"
+    //public static final HttpUrl VERSION_URL = HttpUrl.parse("https://wallet.schildbach.de/version"
+    public static final HttpUrl VERSION_URL = HttpUrl.parse("https://www.mincoinexplorer.com/aw/version"
             + (NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET) ? "" : "-test"));
     /** URL to fetch dynamic fees from. */
-    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://wallet.schildbach.de/fees");
+    public static final HttpUrl DYNAMIC_FEES_URL = null; /* cryptodad Jun 2019 - HttpUrl.parse("https://wallet.schildbach.de/fees"); */
 
     /** MIME type used for transmitting single transactions. */
-    public static final String MIMETYPE_TRANSACTION = "application/x-btctx";
+    public static final String MIMETYPE_TRANSACTION = "application/x-mnctx";
 
     /** MIME type used for transmitting wallet backups. */
-    public static final String MIMETYPE_WALLET_BACKUP = "application/x-bitcoin-wallet-backup";
+    public static final String MIMETYPE_WALLET_BACKUP = "application/x-mincoin-wallet-backup";
 
     /** Number of confirmations until a transaction is fully confirmed. */
-    public static final int MAX_NUM_CONFIRMATIONS = 7;
+    public static final int MAX_NUM_CONFIRMATIONS = 6;
 
     /** User-agent to use for network access. */
-    public static final String USER_AGENT = "Bitcoin Wallet";
+    public static final String USER_AGENT = "Mincoin Wallet";
 
     /** Default currency to use if all default mechanisms fail. */
     public static final String DEFAULT_EXCHANGE_CURRENCY = "USD";
 
     /** Donation address for tip/donate action. */
     public static final String DONATION_ADDRESS = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET)
-            ? "bc1qzug4shzgksqfqxuphgxluhnayqq3rmmh5v0dql" : null;
+            ? "M9zYyXUhFNcEmc7FnQz46qBPKnv4eyLVTc" : null;
 
     /** Recipient e-mail address for reports. */
-    public static final String REPORT_EMAIL = "bitcoin.wallet.developers@gmail.com";
+    public static final String REPORT_EMAIL = "mincoin.dev@gmail.com";
 
     /** Subject line for manually reported issues. */
     public static final String REPORT_SUBJECT_ISSUE = "Reported issue";
@@ -164,8 +170,8 @@ public final class Constants {
 
     public static final BaseEncoding HEX = BaseEncoding.base16().lowerCase();
 
-    public static final String SOURCE_URL = "https://github.com/bitcoin-wallet/bitcoin-wallet";
-    public static final String BINARY_URL = "https://wallet.schildbach.de/";
+    public static final String SOURCE_URL = "https://github.com/gotaproblem/dev-mincoin";
+    public static final String BINARY_URL = "https://github.com/gotaproblem/dev-mincoin/releases";
 
     public static final int PEER_DISCOVERY_TIMEOUT_MS = 10 * (int) DateUtils.SECOND_IN_MILLIS;
     public static final int PEER_TIMEOUT_MS = 15 * (int) DateUtils.SECOND_IN_MILLIS;
@@ -177,9 +183,12 @@ public final class Constants {
     public static final long DELAYED_TRANSACTION_THRESHOLD_MS = 2 * DateUtils.HOUR_IN_MILLIS;
 
     /** A balance above this amount will show a warning */
-    public static final Coin TOO_MUCH_BALANCE_THRESHOLD = Coin.COIN.divide(4);
+    //public static final Coin TOO_MUCH_BALANCE_THRESHOLD = Coin.COIN.divide(4);
+    public static final Coin TOO_MUCH_BALANCE_THRESHOLD = Coin.COIN.multiply(10000); /* cryptodad Jun 2019 - mincoin unfortunately isn't as valuable as BTC (yet), so set to 10,000 MNC */
+
     /** A balance above this amount will cause the donate option to be shown */
-    public static final Coin SOME_BALANCE_THRESHOLD = Coin.COIN.divide(200);
+    //public static final Coin SOME_BALANCE_THRESHOLD = Coin.COIN.divide(200);
+    public static final Coin SOME_BALANCE_THRESHOLD = Coin.COIN.multiply(200); /* cryptodad Jun 2019 - 200 MNC */
 
     public static final int SDK_DEPRECATED_BELOW = Build.VERSION_CODES.LOLLIPOP;
 

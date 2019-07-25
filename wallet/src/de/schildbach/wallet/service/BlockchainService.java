@@ -33,33 +33,33 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Block;
-import org.bitcoinj.core.BlockChain;
-import org.bitcoinj.core.CheckpointManager;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.FilteredBlock;
-import org.bitcoinj.core.Peer;
-import org.bitcoinj.core.PeerGroup;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
-import org.bitcoinj.core.listeners.AbstractPeerDataEventListener;
-import org.bitcoinj.core.listeners.PeerConnectedEventListener;
-import org.bitcoinj.core.listeners.PeerDataEventListener;
-import org.bitcoinj.core.listeners.PeerDisconnectedEventListener;
-import org.bitcoinj.net.discovery.MultiplexingDiscovery;
-import org.bitcoinj.net.discovery.PeerDiscovery;
-import org.bitcoinj.net.discovery.PeerDiscoveryException;
-import org.bitcoinj.store.BlockStore;
-import org.bitcoinj.store.BlockStoreException;
-import org.bitcoinj.store.SPVBlockStore;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.Block;
+import org.mincoinj.core.BlockChain;
+import org.mincoinj.core.CheckpointManager;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.FilteredBlock;
+import org.mincoinj.core.Peer;
+import org.mincoinj.core.PeerGroup;
+import org.mincoinj.core.Sha256Hash;
+import org.mincoinj.core.StoredBlock;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.TransactionConfidence.ConfidenceType;
+import org.mincoinj.core.listeners.AbstractPeerDataEventListener;
+import org.mincoinj.core.listeners.PeerConnectedEventListener;
+import org.mincoinj.core.listeners.PeerDataEventListener;
+import org.mincoinj.core.listeners.PeerDisconnectedEventListener;
+import org.mincoinj.net.discovery.MultiplexingDiscovery;
+import org.mincoinj.net.discovery.PeerDiscovery;
+import org.mincoinj.net.discovery.PeerDiscoveryException;
+import org.mincoinj.store.BlockStore;
+import org.mincoinj.store.BlockStoreException;
+import org.mincoinj.store.SPVBlockStore;
+import org.mincoinj.utils.MonetaryFormat;
+import org.mincoinj.utils.Threading;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.listeners.WalletCoinsReceivedEventListener;
+import org.mincoinj.wallet.listeners.WalletCoinsSentEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,9 +137,9 @@ public class BlockchainService extends LifecycleService {
     private long serviceCreatedAt;
     private boolean resetBlockchainOnShutdown = false;
 
-    private static final int MIN_COLLECT_HISTORY = 2;
-    private static final int IDLE_BLOCK_TIMEOUT_MIN = 2;
-    private static final int IDLE_TRANSACTION_TIMEOUT_MIN = 9;
+    private static final int MIN_COLLECT_HISTORY = 1;//2;
+    private static final int IDLE_BLOCK_TIMEOUT_MIN = 1;//2;
+    private static final int IDLE_TRANSACTION_TIMEOUT_MIN = 1;//9;
     private static final int MAX_HISTORY_SIZE = Math.max(IDLE_TRANSACTION_TIMEOUT_MIN, IDLE_BLOCK_TIMEOUT_MIN);
     private static final long BLOCKCHAIN_STATE_BROADCAST_THROTTLE_MS = DateUtils.SECOND_IN_MILLIS;
 
@@ -160,15 +160,23 @@ public class BlockchainService extends LifecycleService {
     private static final Logger log = LoggerFactory.getLogger(BlockchainService.class);
 
     public static void start(final Context context, final boolean cancelCoinsReceived) {
-        if (cancelCoinsReceived)
+        log.info ( "1" );
+        if (cancelCoinsReceived) {
+            log.info("2");
             context.startService(
                     new Intent(BlockchainService.ACTION_CANCEL_COINS_RECEIVED, null, context, BlockchainService.class));
-        else
+        }
+        else {
+            log.info ( "3" );
             context.startService(new Intent(context, BlockchainService.class));
+        }
+        log.info ( "4" );
     }
 
     public static void stop(final Context context) {
+        log.info ( "5" );
         context.stopService(new Intent(context, BlockchainService.class));
+        log.info ( "6" );
     }
 
     public static void scheduleStart(final WalletApplication application) {
@@ -496,6 +504,7 @@ public class BlockchainService extends LifecycleService {
 
     @Override
     public void onCreate() {
+        log.info ( "10" );
         serviceCreatedAt = System.currentTimeMillis();
         log.debug(".onCreate()");
 
@@ -531,6 +540,7 @@ public class BlockchainService extends LifecycleService {
                 }
             });
         }
+        log.info ( "11" );
         wallet = new WalletLiveData(application);
         wallet.observe(this, new Observer<Wallet>() {
             @Override
@@ -543,13 +553,16 @@ public class BlockchainService extends LifecycleService {
                 }
 
                 try {
+                    log.info ( "12" );
                     blockStore = new SPVBlockStore(Constants.NETWORK_PARAMETERS, blockChainFile,
                             Constants.Files.BLOCKCHAIN_STORE_CAPACITY, true);
+                    log.info ( "13" );
                     blockStore.getChainHead(); // detect corruptions as early as possible
-
+                    log.info ( "14" );
                     final long earliestKeyCreationTime = wallet.getEarliestKeyCreationTime();
-
+                    log.info ( "15" );
                     if (!blockChainFileExists && earliestKeyCreationTime > 0) {
+                        log.info ( "16" );
                         try {
                             final Stopwatch watch = Stopwatch.createStarted();
                             final InputStream checkpointsInputStream = getAssets()
@@ -572,14 +585,18 @@ public class BlockchainService extends LifecycleService {
                 }
 
                 try {
+                    log.info ( "17" );
                     blockChain = new BlockChain(Constants.NETWORK_PARAMETERS, wallet, blockStore);
+                    log.info ( "18" );
                 } catch (final BlockStoreException x) {
                     throw new Error("blockchain cannot be created", x);
                 }
 
+                log.info ( "18z" );
                 observeLiveDatasThatAreDependentOnWalletAndBlockchain();
             }
         });
+        log.info ( "19" );
     }
 
     private void observeLiveDatasThatAreDependentOnWalletAndBlockchain() {
@@ -612,6 +629,8 @@ public class BlockchainService extends LifecycleService {
                 if (lastChainHeight > 0) {
                     final int numBlocksDownloaded = chainHeight - lastChainHeight;
                     final int numTransactionsReceived = transactionsReceived.getAndSet(0);
+
+                    log.info("blocks - chainheight: " + chainHeight + ", lastChainHeight: " + lastChainHeight);
 
                     // push history
                     activityHistory.add(0, new ActivityHistoryEntry(numTransactionsReceived, numBlocksDownloaded));

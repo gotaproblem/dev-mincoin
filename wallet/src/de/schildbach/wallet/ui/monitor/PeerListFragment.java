@@ -21,7 +21,7 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.Map;
 
-import org.bitcoinj.core.Peer;
+import org.mincoinj.core.Peer;
 
 import de.schildbach.wallet.R;
 import de.schildbach.wallet.ui.DividerItemDecoration;

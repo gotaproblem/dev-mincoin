@@ -19,10 +19,10 @@ package de.schildbach.wallet;
 
 import java.lang.reflect.Method;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.utils.Fiat;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.bitcoinj.wallet.Wallet.BalanceType;
+import org.mincoinj.core.Coin;
+import org.mincoinj.utils.Fiat;
+import org.mincoinj.utils.MonetaryFormat;
+import org.mincoinj.wallet.Wallet.BalanceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,7 +128,8 @@ public class WalletBalanceWidgetProvider extends AppWidgetProvider {
             final MonetaryFormat localFormat = Constants.LOCAL_FORMAT.code(0,
                     Constants.PREFIX_ALMOST_EQUAL_TO + GenericUtils.currencySymbol(exchangeRate.getCurrencyCode()));
             final Object[] prefixSpans = new Object[] { MonetarySpannable.SMALLER_SPAN,
-                    new ForegroundColorSpan(ContextCompat.getColor(context, R.color.fg_less_significant)) };
+                    //new ForegroundColorSpan(ContextCompat.getColor(context, R.color.fg_less_significant)) };
+                    new ForegroundColorSpan(ContextCompat.getColor(context, R.color.currency_font)) };
             localBalanceStr = new MonetarySpannable(localFormat, localBalance).applyMarkup(prefixSpans,
                     MonetarySpannable.STANDARD_INSIGNIFICANT_SPANS);
         } else {
@@ -137,13 +138,15 @@ public class WalletBalanceWidgetProvider extends AppWidgetProvider {
 
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wallet_balance_widget_content);
 
+        /* cryptodad Jun 2019 - remove milli and micro */
         final String currencyCode = btcFormat.code();
-        if (MonetaryFormat.CODE_BTC.equals(currencyCode))
-            views.setImageViewResource(R.id.widget_wallet_prefix, R.drawable.currency_symbol_btc);
-        else if (MonetaryFormat.CODE_MBTC.equals(currencyCode))
-            views.setImageViewResource(R.id.widget_wallet_prefix, R.drawable.currency_symbol_mbtc);
-        else if (MonetaryFormat.CODE_UBTC.equals(currencyCode))
-            views.setImageViewResource(R.id.widget_wallet_prefix, R.drawable.currency_symbol_ubtc);
+        //if (MonetaryFormat.CODE_BTC.equals(currencyCode))
+           // views.setImageViewResource(R.id.widget_wallet_prefix, R.drawable.currency_symbol_btc);
+            views.setImageViewResource(R.id.widget_wallet_prefix, R.drawable.currency_symbol_mnc);
+        //else if (MonetaryFormat.CODE_MBTC.equals(currencyCode))
+        //    views.setImageViewResource(R.id.widget_wallet_prefix, R.drawable.currency_symbol_mbtc);
+        //else if (MonetaryFormat.CODE_UBTC.equals(currencyCode))
+        //    views.setImageViewResource(R.id.widget_wallet_prefix, R.drawable.currency_symbol_ubtc);
 
         views.setTextViewText(R.id.widget_wallet_balance_btc, balanceStr);
         views.setViewVisibility(R.id.widget_wallet_balance_local, localBalanceStr != null ? View.VISIBLE : View.GONE);

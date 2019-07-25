@@ -17,10 +17,10 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.PrefixedChecksummedBytes;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.script.Script;
+import org.mincoinj.core.PrefixedChecksummedBytes;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.VerificationException;
+import org.mincoinj.script.Script;
 
 import com.google.common.primitives.Floats;
 

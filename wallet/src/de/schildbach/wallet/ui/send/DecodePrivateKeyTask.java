@@ -17,8 +17,8 @@
 
 package de.schildbach.wallet.ui.send;
 
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.crypto.BIP38PrivateKey;
+import org.mincoinj.core.ECKey;
+import org.mincoinj.crypto.BIP38PrivateKey;
 
 import android.os.Handler;
 import android.os.Looper;

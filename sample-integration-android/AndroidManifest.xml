@@ -4,8 +4,6 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="15" />
-
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -16,7 +14,7 @@
         android:normalScreens="true"
         android:smallScreens="true" />
 
-    <application android:label="Bitcoin in-app payment sample" >
+    <application android:label="Mincoin in-app payment sample" >
         <activity
             android:name="de.schildbach.wallet.integration.sample.SampleActivity"
             android:theme="@android:style/Theme.Light" >

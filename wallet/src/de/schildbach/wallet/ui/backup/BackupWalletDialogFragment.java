@@ -32,9 +32,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.bitcoinj.wallet.Protos;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.WalletProtobufSerializer;
+import org.mincoinj.wallet.Protos;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.WalletProtobufSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

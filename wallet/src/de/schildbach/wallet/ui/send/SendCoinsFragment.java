@@ -26,23 +26,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.bitcoin.protocols.payments.Protos.Payment;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.InsufficientMoneyException;
-import org.bitcoinj.core.PrefixedChecksummedBytes;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionConfidence;
-import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.protocols.payments.PaymentProtocol;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.bitcoinj.wallet.KeyChain.KeyPurpose;
-import org.bitcoinj.wallet.SendRequest;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.Wallet.BalanceType;
-import org.bitcoinj.wallet.Wallet.CouldNotAdjustDownwards;
-import org.bitcoinj.wallet.Wallet.DustySendRequested;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.AddressFormatException;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.InsufficientMoneyException;
+import org.mincoinj.core.PrefixedChecksummedBytes;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.TransactionConfidence;
+import org.mincoinj.core.TransactionConfidence.ConfidenceType;
+import org.mincoinj.core.VerificationException;
+import org.mincoinj.protocols.payments.PaymentProtocol;
+import org.mincoinj.utils.MonetaryFormat;
+import org.mincoinj.wallet.KeyChain.KeyPurpose;
+import org.mincoinj.wallet.SendRequest;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.Wallet.BalanceType;
+import org.mincoinj.wallet.Wallet.CouldNotAdjustDownwards;
+import org.mincoinj.wallet.Wallet.DustySendRequested;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -420,7 +420,7 @@ public final class SendCoinsFragment extends Fragment {
             final String mimeType = intent.getType();
 
             if ((Intent.ACTION_VIEW.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
-                    && intentUri != null && "bitcoin".equals(scheme)) {
+                    && intentUri != null && "mincoin".equals(scheme)) {
                 initStateFromBitcoinUri(intentUri);
             } else if ((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
                     && PaymentProtocol.MIMETYPE_PAYMENTREQUEST.equals(mimeType)) {
@@ -1117,16 +1117,19 @@ public final class SendCoinsFragment extends Fragment {
                     hintView.setVisibility(View.VISIBLE);
                     final int hintResId;
                     final int colorResId;
+                    /* cryptodad Jul 2019 - one colour for text */
+                    colorResId = R.color.fg_white;
                     if (viewModel.feeCategory == FeeCategory.ECONOMIC) {
                         hintResId = R.string.send_coins_fragment_hint_fee_economic;
-                        colorResId = R.color.fg_less_significant;
+                        //colorResId = R.color.fg_less_significant;
                     } else if (viewModel.feeCategory == FeeCategory.PRIORITY) {
                         hintResId = R.string.send_coins_fragment_hint_fee_priority;
-                        colorResId = R.color.fg_less_significant;
+                        //colorResId = R.color.fg_less_significant;
                     } else {
                         hintResId = R.string.send_coins_fragment_hint_fee;
-                        colorResId = R.color.fg_insignificant;
+                        //colorResId = R.color.fg_insignificant;
                     }
+
                     hintView.setTextColor(ContextCompat.getColor(activity, colorResId));
                     hintView.setText(getString(hintResId, btcFormat.format(viewModel.dryrunTransaction.getFee())));
                 } else if (viewModel.paymentIntent.mayEditAddress() && viewModel.validatedAddress != null

@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Sha256Hash;
+import org.mincoinj.core.StoredBlock;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.wallet.Wallet;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
@@ -153,7 +153,7 @@ public class BlockListViewModel extends AndroidViewModel {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                    org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                     final Set<Transaction> transactions = wallet.getTransactions(false);
                     final Set<Transaction> filteredTransactions = new HashSet<Transaction>(transactions.size());
                     for (final Transaction tx : transactions) {

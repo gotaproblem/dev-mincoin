@@ -22,9 +22,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.ECKey;
+import org.mincoinj.wallet.Wallet;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.R;

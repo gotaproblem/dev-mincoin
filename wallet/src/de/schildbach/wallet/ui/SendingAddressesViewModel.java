@@ -22,11 +22,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.ECKey;
+import org.mincoinj.core.LegacyAddress;
+import org.mincoinj.crypto.DeterministicKey;
+import org.mincoinj.wallet.Wallet;
 
 import com.google.common.collect.Iterables;
 

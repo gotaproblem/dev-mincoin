@@ -17,15 +17,15 @@
 
 package de.schildbach.wallet.ui.send;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.InsufficientMoneyException;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.crypto.KeyCrypterException;
-import org.bitcoinj.wallet.SendRequest;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.Wallet.CompletionException;
-import org.bitcoinj.wallet.Wallet.CouldNotAdjustDownwards;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.ECKey;
+import org.mincoinj.core.InsufficientMoneyException;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.crypto.KeyCrypterException;
+import org.mincoinj.wallet.SendRequest;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.Wallet.CompletionException;
+import org.mincoinj.wallet.Wallet.CouldNotAdjustDownwards;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +54,7 @@ public abstract class SendCoinsOfflineTask {
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                org.mincoinj.core.Context.propagate(Constants.CONTEXT);
 
                 try {
                     log.info("sending: {}", sendRequest);

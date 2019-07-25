@@ -17,10 +17,10 @@
 package de.schildbach.wallet.integration.sample;
 
 import org.bitcoin.protocols.payments.Protos;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.script.ScriptBuilder;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.AddressFormatException;
+import org.mincoinj.core.NetworkParameters;
+import org.mincoinj.script.ScriptBuilder;
 
 import android.app.Activity;
 import android.content.Intent;

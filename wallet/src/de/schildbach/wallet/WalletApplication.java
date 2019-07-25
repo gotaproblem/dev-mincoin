@@ -25,16 +25,16 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.core.VersionMessage;
-import org.bitcoinj.crypto.LinuxSecureRandom;
-import org.bitcoinj.crypto.MnemonicCode;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.UnreadableWalletException;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.WalletFiles;
-import org.bitcoinj.wallet.WalletProtobufSerializer;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.VerificationException;
+import org.mincoinj.core.VersionMessage;
+import org.mincoinj.crypto.LinuxSecureRandom;
+import org.mincoinj.crypto.MnemonicCode;
+import org.mincoinj.utils.Threading;
+import org.mincoinj.wallet.UnreadableWalletException;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.WalletFiles;
+import org.mincoinj.wallet.WalletProtobufSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,8 +97,8 @@ public class WalletApplication extends Application {
                 .permitDiskWrites().penaltyLog().build());
 
         Threading.throwOnLockCycles();
-        org.bitcoinj.core.Context.enableStrictMode();
-        org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+        org.mincoinj.core.Context.enableStrictMode();
+        org.mincoinj.core.Context.propagate(Constants.CONTEXT);
 
         log.info("=== starting app using configuration: {}, {}", Constants.TEST ? "test" : "prod",
                 Constants.NETWORK_PARAMETERS.getId());
@@ -112,10 +112,11 @@ public class WalletApplication extends Application {
         Threading.uncaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(final Thread thread, final Throwable throwable) {
-                log.info("bitcoinj uncaught exception", throwable);
+                log.info("mincoinj uncaught exception", throwable);
                 CrashReporter.saveBackgroundTrace(throwable, packageInfo);
             }
         };
+
 
         activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -123,6 +124,7 @@ public class WalletApplication extends Application {
 
         final Configuration config = getConfiguration();
         config.updateLastVersionCode(packageInfo.versionCode);
+
         final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter != null)
             config.updateLastBluetoothAddress(Bluetooth.getAddress(bluetoothAdapter));
@@ -167,7 +169,7 @@ public class WalletApplication extends Application {
         getWalletExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                 synchronized (getWalletLock) {
                     initMnemonicCode();
                     if (walletFiles == null)

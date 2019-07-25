@@ -20,10 +20,10 @@ package de.schildbach.wallet.ui.send;
 import static androidx.core.util.Preconditions.checkNotNull;
 import static androidx.core.util.Preconditions.checkState;
 
-import org.bitcoinj.crypto.KeyCrypter;
-import org.bitcoinj.crypto.KeyCrypterException;
-import org.bitcoinj.crypto.KeyCrypterScrypt;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.crypto.KeyCrypter;
+import org.mincoinj.crypto.KeyCrypterException;
+import org.mincoinj.crypto.KeyCrypterScrypt;
+import org.mincoinj.wallet.Wallet;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +56,7 @@ public abstract class DeriveKeyTask {
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                org.mincoinj.core.Context.propagate(Constants.CONTEXT);
 
                 // Key derivation takes time.
                 KeyParameter key = keyCrypter.deriveKey(password);

@@ -26,7 +26,9 @@ import okhttp3.HttpUrl;
  * @author Andreas Schildbach
  */
 public enum Installer {
-    F_DROID("F-Droid"), GOOGLE_PLAY("Google Play"), AMAZON_APPSTORE("Amazon Appstore");
+    /* cryptodad Jul 2019 - Google Play only */
+    //F_DROID("F-Droid"), GOOGLE_PLAY("Google Play"), AMAZON_APPSTORE("Amazon Appstore");
+    GOOGLE_PLAY("Google Play");
 
     public final String displayName;
 
@@ -40,13 +42,14 @@ public enum Installer {
     }
 
     public static Installer from(final String installerPackageName) {
-        if ("org.fdroid.fdroid".equals(installerPackageName)
-                || "org.fdroid.fdroid.privileged".equals(installerPackageName))
-            return F_DROID;
+        /* cryptodad Jul 2019 - Google Play only */
+        //if ("org.fdroid.fdroid".equals(installerPackageName)
+        //        || "org.fdroid.fdroid.privileged".equals(installerPackageName))
+        //    return F_DROID;
         if ("com.android.vending".equals(installerPackageName))
             return GOOGLE_PLAY;
-        if ("com.amazon.venezia".equals(installerPackageName))
-            return AMAZON_APPSTORE;
+        //if ("com.amazon.venezia".equals(installerPackageName))
+        //    return AMAZON_APPSTORE;
         return null;
     }
 
@@ -56,15 +59,17 @@ public enum Installer {
 
     public HttpUrl appStorePageFor(final Application application) {
         final HttpUrl.Builder url;
-        if (this == F_DROID) {
-            url = HttpUrl.parse("https://f-droid.org/de/packages/").newBuilder();
-            url.addPathSegment(application.getPackageName());
-        } else if (this == GOOGLE_PLAY) {
+        /* cryptodad Jul 2019 - Google Play only */
+       // if (this == F_DROID) {
+       //     url = HttpUrl.parse("https://f-droid.org/de/packages/").newBuilder();
+       //     url.addPathSegment(application.getPackageName());
+        //} else if (this == GOOGLE_PLAY) {
+        if (this == GOOGLE_PLAY) {
             url = HttpUrl.parse("https://play.google.com/store/apps/details").newBuilder();
             url.addQueryParameter("id", application.getPackageName());
-        } else if (this == AMAZON_APPSTORE) {
-            url = HttpUrl.parse("https://www.amazon.com/gp/mas/dl/android").newBuilder();
-            url.addQueryParameter("p", application.getPackageName());
+       // } else if (this == AMAZON_APPSTORE) {
+        //    url = HttpUrl.parse("https://www.amazon.com/gp/mas/dl/android").newBuilder();
+        //    url.addQueryParameter("p", application.getPackageName());
         } else {
             throw new IllegalStateException(this.toString());
         }

@@ -3,30 +3,44 @@
 
     <!-- foreground -->
     <color name="fg_significant">#ff000000</color>
-    <color name="fg_less_significant">#ff666666</color>
+    <!--<color name="fg_less_significant">#ff666666</color>-->
+    <color name="fg_less_significant">#ff00f000</color>
+    <color name="fg_white">#ffffffff</color>
+    <color name="currency_font">#ffffffff</color>       <!-- text colour for wallet balance currency -->
+    <color name="currency_value">#ff000000</color>       <!-- text colour for wallet balance amount -->
+    <color name="wallet_warning_text">#ffffffff</color>       <!-- text colour for wallet warnings -->
     <color name="fg_insignificant">#ffbbbbbb</color>
-    <color name="fg_value_positive">#ff008000</color>
-    <color name="fg_value_negative">#ff990000</color>
+    <color name="fg_value_positive">#00F000</color>
+    <color name="fg_value_negative">#fff00000</color>
     <color name="fg_error">#ffff0000</color>
     <color name="fg_network_significant">#ffffffff</color>
-    <color name="fg_network_insignificant">#ffa0a0a0</color>
+    <!--<color name="fg_network_insignificant">#ffa0a0a0</color>-->
+    <color name="fg_network_insignificant">#ff000000</color>
     <color name="fg_shortcut">#ffa0a0a0</color>
 
     <!-- background -->
-    <color name="bg_bright">#ffffffff</color>
-    <color name="bg_less_bright">#ffe8e8f0</color>
-    <color name="bg_action_bar">#ff222222</color>
-    <color name="bg_panel">#fff2f2f8</color>
-    <color name="bg_form">@android:color/white</color>
+    <color name="bg_white">#ffffffff</color>
+    <!--<color name="bg_bright">#ffffffff</color>-->
+    <!--<color name="bg_bright">#0573a4</color>--> <!-- mincoin blue -->
+    <color name="bg_bright">#ff4b93cf</color>
+    <!--<color name="bg_less_bright">#ffe8e8f0</color>-->
+    <color name="bg_less_bright">#0573a4</color>
+    <!--<color name="bg_action_bar">#ff222222</color>-->
+    <color name="bg_action_bar">#0573a4</color>
+    <!--<color name="bg_panel">#fff2f2f8</color>-->
+    <color name="bg_panel">#ff4b93cf</color>
+    <!--<color name="bg_form">@android:color/white</color>-->
+    <color name="bg_form">#0573a4</color>
     <color name="bg_list">#40ffffff</color>
     <color name="bg_list_selected">#40808090</color>
-    <color name="bg_dialog_title">@android:color/transparent</color>
+    <!--<color name="bg_dialog_title">@android:color/transparent</color>-->
+    <color name="bg_dialog_title">#0573a4</color>
     <color name="bg_shortcut">#fff5f5f5</color>
 
     <!-- password strength -->
     <color name="fg_password_strength_weak">#ff0000</color>
     <color name="fg_password_strength_fair">#c06000</color>
-    <color name="fg_password_strength_strong">#00a000</color>
+    <color name="fg_password_strength_strong">#00f000</color>
 
     <!-- scanner -->
     <color name="scan_mask">#60000000</color>

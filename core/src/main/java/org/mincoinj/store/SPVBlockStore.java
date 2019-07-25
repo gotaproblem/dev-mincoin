@@ -41,7 +41,8 @@ public class SPVBlockStore implements BlockStore {
     private static final Logger log = LoggerFactory.getLogger(SPVBlockStore.class);
 
     /** The default number of headers that will be stored in the ring buffer. */
-    public static final int DEFAULT_CAPACITY = 5000;
+    //public static final int DEFAULT_CAPACITY = 5000;
+    public static final int DEFAULT_CAPACITY = 3000;
     public static final String HEADER_MAGIC = "SPVB";
 
     protected volatile MappedByteBuffer buffer;

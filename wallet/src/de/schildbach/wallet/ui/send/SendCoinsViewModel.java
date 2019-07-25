@@ -19,8 +19,8 @@ package de.schildbach.wallet.ui.send;
 
 import java.util.List;
 
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.wallet.Wallet.BalanceType;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.wallet.Wallet.BalanceType;
 
 import de.schildbach.wallet.WalletApplication;
 import de.schildbach.wallet.data.AddressBookEntry;

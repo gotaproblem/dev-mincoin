@@ -17,7 +17,7 @@
 
 package de.schildbach.wallet.ui.send;
 
-import org.bitcoinj.core.PrefixedChecksummedBytes;
+import org.mincoinj.core.PrefixedChecksummedBytes;
 
 import de.schildbach.wallet.R;
 import de.schildbach.wallet.service.BlockchainService;

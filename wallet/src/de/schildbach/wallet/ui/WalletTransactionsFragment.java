@@ -20,12 +20,12 @@ package de.schildbach.wallet.ui;
 import java.util.List;
 import java.util.Set;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.Transaction.Purpose;
-import org.bitcoinj.script.ScriptException;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.Sha256Hash;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.Transaction.Purpose;
+import org.mincoinj.script.ScriptException;
+import org.mincoinj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +87,7 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
     private WalletTransactionsViewModel viewModel;
 
     private static final Uri KEY_ROTATION_URI = Uri.parse("https://bitcoin.org/en/alert/2013-08-11-android");
-    private static final int SHOW_QR_THRESHOLD_BYTES = 2500;
+    private static final int SHOW_QR_THRESHOLD_BYTES = 2500; /* cryptodad Jul 2019 - can I increase this size for large tx??? */
 
     private static final Logger log = LoggerFactory.getLogger(WalletTransactionsFragment.class);
 
@@ -223,6 +223,7 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
         final WalletTransactionsViewModel.Direction direction = viewModel.direction.getValue();
+
         if (direction == null) {
             menu.findItem(R.id.wallet_transactions_options_filter_all).setChecked(true);
             maybeSetFilterMenuItemIcon(R.drawable.ic_filter_list_white_24dp);
@@ -240,6 +241,7 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
     public boolean onOptionsItemSelected(final MenuItem item) {
         final int itemId = item.getItemId();
         final WalletTransactionsViewModel.Direction direction;
+
         if (itemId == R.id.wallet_transactions_options_filter_all) {
             direction = null;
             maybeSetFilterMenuItemIcon(R.drawable.ic_filter_list_white_24dp);

@@ -17,9 +17,9 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.utils.ExchangeRate;
-import org.bitcoinj.utils.Fiat;
+import org.mincoinj.core.Coin;
+import org.mincoinj.utils.ExchangeRate;
+import org.mincoinj.utils.Fiat;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.ui.CurrencyAmountView.Listener;

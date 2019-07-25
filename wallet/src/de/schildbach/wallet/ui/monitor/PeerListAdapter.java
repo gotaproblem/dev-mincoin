@@ -24,8 +24,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-import org.bitcoinj.core.Peer;
-import org.bitcoinj.core.VersionMessage;
+import org.mincoinj.core.Peer;
+import org.mincoinj.core.VersionMessage;
 
 import de.schildbach.wallet.R;
 

@@ -17,9 +17,9 @@
 
 package de.schildbach.wallet;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.utils.Fiat;
-import org.bitcoinj.utils.MonetaryFormat;
+import org.mincoinj.core.Coin;
+import org.mincoinj.utils.Fiat;
+import org.mincoinj.utils.MonetaryFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,8 +67,8 @@ public class Configuration {
     private static final String PREFS_KEY_LAST_BACKUP = "last_backup";
     private static final String PREFS_KEY_LAST_BLUETOOTH_ADDRESS = "last_bluetooth_address";
 
-    private static final int PREFS_DEFAULT_BTC_SHIFT = 3;
-    private static final int PREFS_DEFAULT_BTC_PRECISION = 2;
+    private static final int PREFS_DEFAULT_BTC_SHIFT = 0;
+    private static final int PREFS_DEFAULT_BTC_PRECISION = 8;
 
     private static final Logger log = LoggerFactory.getLogger(Configuration.class);
 
@@ -80,7 +80,7 @@ public class Configuration {
     }
 
     private int getBtcPrecision() {
-        final String precision = prefs.getString(PREFS_KEY_BTC_PRECISION, null);
+        final String precision = prefs.getString(PREFS_KEY_BTC_PRECISION, "8");
         if (precision != null)
             return precision.charAt(0) - '0';
         else
@@ -88,15 +88,19 @@ public class Configuration {
     }
 
     public int getBtcShift() {
-        final String precision = prefs.getString(PREFS_KEY_BTC_PRECISION, null);
-        if (precision != null)
-            return precision.length() == 3 ? precision.charAt(2) - '0' : 0;
-        else
+
+        /* cryptodad Jun 2019 - remove mini, micro etc */
+        //final String precision = prefs.getString(PREFS_KEY_BTC_PRECISION, null);
+        //if (precision != null)
+        //    return precision.length() == 3 ? precision.charAt(2) - '0' : 0;
+        //else
             return PREFS_DEFAULT_BTC_SHIFT;
     }
 
     public Coin getBtcBase() {
         final int shift = getBtcShift();
+
+        /* cryptodad Jun 2019 - remove mini, micro etc */
         if (shift == 0)
             return Coin.COIN;
         else if (shift == 3)
@@ -138,7 +142,7 @@ public class Configuration {
     }
 
     public String getTrustedPeerHost() {
-        return Strings.emptyToNull(prefs.getString(PREFS_KEY_TRUSTED_PEER, "").trim());
+        return Strings.emptyToNull(prefs.getString(PREFS_KEY_TRUSTED_PEER, "45.77.90.192").trim());
     }
 
     public boolean getTrustedPeerOnly() {
@@ -176,11 +180,12 @@ public class Configuration {
     }
 
     public boolean getDisclaimerEnabled() {
-        return prefs.getBoolean(PREFS_KEY_DISCLAIMER, true);
+        return prefs.getBoolean(PREFS_KEY_DISCLAIMER, false);
     }
 
     public String getExchangeCurrencyCode() {
-        return prefs.getString(PREFS_KEY_EXCHANGE_CURRENCY, null);
+        //return prefs.getString(PREFS_KEY_EXCHANGE_CURRENCY, null);
+        return prefs.getString(PREFS_KEY_EXCHANGE_CURRENCY, "USD");
     }
 
     public void setExchangeCurrencyCode(final String exchangeCurrencyCode) {
@@ -238,7 +243,7 @@ public class Configuration {
             final Coin cachedExchangeRateCoin = Coin.valueOf(prefs.getLong(PREFS_KEY_CACHED_EXCHANGE_RATE_COIN, 0));
             final Fiat cachedExchangeRateFiat = Fiat.valueOf(cachedExchangeCurrency,
                     prefs.getLong(PREFS_KEY_CACHED_EXCHANGE_RATE_FIAT, 0));
-            return new ExchangeRate(new org.bitcoinj.utils.ExchangeRate(cachedExchangeRateCoin, cachedExchangeRateFiat),
+            return new ExchangeRate(new org.mincoinj.utils.ExchangeRate(cachedExchangeRateCoin, cachedExchangeRateFiat),
                     null);
         } else {
             return null;

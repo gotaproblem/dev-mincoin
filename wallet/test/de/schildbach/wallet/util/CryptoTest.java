@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-import org.bitcoinj.wallet.WalletProtobufSerializer;
+import org.mincoinj.wallet.WalletProtobufSerializer;
 import org.junit.Test;
 
 import com.google.common.io.CharStreams;

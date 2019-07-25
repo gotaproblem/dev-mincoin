@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.bitcoinj.core.Coin;
+import org.mincoinj.core.Coin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,9 +92,11 @@ public class DynamicFeeLiveData extends LiveData<Map<FeeCategory, Coin>> {
 
     private Map<FeeCategory, Coin> loadInBackground() {
         try {
+            /* cryptodad Jun 2019 - mincoin doesn't use dynamic fees */
             final Map<FeeCategory, Coin> staticFees = parseFees(assets.open(Constants.Files.FEES_FILENAME));
-            fetchDynamicFees(dynamicFeesUrl, tempFile, dynamicFeesFile, userAgent);
-            if (!dynamicFeesFile.exists())
+
+            //fetchDynamicFees(dynamicFeesUrl, tempFile, dynamicFeesFile, userAgent);
+            //if (!dynamicFeesFile.exists())
                 return staticFees;
 
             // Check dynamic fees for sanity, based on the hardcoded fees.
@@ -102,31 +104,38 @@ public class DynamicFeeLiveData extends LiveData<Map<FeeCategory, Coin>> {
             // ECONOMIC: h/8 to h*4
             // NORMAL: h/4 to h*4
             // PRIORITY: h/4 to h*8
-            final Map<FeeCategory, Coin> dynamicFees = parseFees(new FileInputStream(dynamicFeesFile));
+
+            /* cryptodad Jun 2019 - mincoin doesn't use dynamic fees */
+            /*
+            //final Map<FeeCategory, Coin> dynamicFees = parseFees(new FileInputStream(dynamicFeesFile));
             for (final FeeCategory category : FeeCategory.values()) {
                 final Coin staticFee = staticFees.get(category);
-                final Coin dynamicFee = dynamicFees.get(category);
-                if (dynamicFee == null) {
-                    dynamicFees.put(category, staticFee);
+                //final Coin dynamicFee = dynamicFees.get(category);
+                //if (dynamicFee == null) {
+                //    dynamicFees.put(category, staticFee);
                     log.warn("Dynamic fee category missing, using static: category {}, {}/kB", category,
                             staticFee.toFriendlyString());
-                    continue;
-                }
+                //    continue;
+                //}
                 final Coin upperBound = staticFee.shiftLeft(category == FeeCategory.PRIORITY ? 3 : 2);
-                if (dynamicFee.isGreaterThan(upperBound)) {
-                    dynamicFees.put(category, upperBound);
-                    log.warn("Down-adjusting dynamic fee: category {} from {}/kB to {}/kB", category,
-                            dynamicFee.toFriendlyString(), upperBound.toFriendlyString());
-                    continue;
-                }
+                //if (dynamicFee.isGreaterThan(upperBound)) {
+                //    dynamicFees.put(category, upperBound);
+                //    log.warn("Down-adjusting dynamic fee: category {} from {}/kB to {}/kB", category,
+                //            dynamicFee.toFriendlyString(), upperBound.toFriendlyString());
+                //    continue;
+                //}
                 final Coin lowerBound = staticFee.shiftRight(category == FeeCategory.ECONOMIC ? 3 : 2);
-                if (dynamicFee.isLessThan(lowerBound)) {
-                    dynamicFees.put(category, lowerBound);
-                    log.warn("Up-adjusting dynamic fee: category {} from {}/kB to {}/kB", category,
-                            dynamicFee.toFriendlyString(), lowerBound.toFriendlyString());
-                }
+                //if (dynamicFee.isLessThan(lowerBound)) {
+                //    dynamicFees.put(category, lowerBound);
+                //    log.warn("Up-adjusting dynamic fee: category {} from {}/kB to {}/kB", category,
+                //            dynamicFee.toFriendlyString(), lowerBound.toFriendlyString());
+                //}
             }
-            return dynamicFees;
+            //return dynamicFees;
+            */
+
+            /* cryptodad Jun 2019 end */
+
         } catch (final IOException x) {
             // Should not happen
             throw new RuntimeException(x);

@@ -4,8 +4,8 @@
     <string name="symbol_to">→</string>
     <string name="symbol_from">←</string>
     <string name="symbol_internal">⇄</string>
-    <string name="app_name">Bitcoin Wallet [testnet3]</string>
-    <string name="app_name_short">Testnet3</string>
+    <string name="app_name">Mincoin Wallet [testnet4]</string>
+    <string name="app_name_short">Mincoin</string>
 
     <string-array name="preferences_precision_values">
         <item>8</item>
@@ -22,12 +22,10 @@
         <item>@string/preferences_precision_labels_0_6</item>
     </string-array>
     <string-array name="preferences_block_explorer_values">
-        <item>https://www.blockchain.com/btctest/</item>
-        <item>https://live.blockcypher.com/btc-testnet/</item>
+        <item>http://www.testnet.mincoinexplorer.com/</item>
     </string-array>
     <string-array name="preferences_block_explorer_labels">
-        <item>blockchain.info</item>
-        <item>live.blockcypher.com</item>
+        <item>http://www.testnet.mincoinexplorer.com/</item>
     </string-array>
 
 </resources>

@@ -17,10 +17,10 @@
 
 package de.schildbach.wallet.service;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.Wallet.BalanceType;
+import org.mincoinj.core.Coin;
+import org.mincoinj.utils.MonetaryFormat;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.Wallet.BalanceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,7 +89,7 @@ public final class InactivityNotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
-        org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+        org.mincoinj.core.Context.propagate(Constants.CONTEXT);
         final Wallet wallet = application.getWallet();
 
         if (ACTION_DISMISS.equals(intent.getAction()))

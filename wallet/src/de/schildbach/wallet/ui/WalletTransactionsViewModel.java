@@ -25,20 +25,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.Transaction.Purpose;
-import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
-import org.bitcoinj.core.listeners.TransactionConfidenceEventListener;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.listeners.WalletChangeEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
-import org.bitcoinj.wallet.listeners.WalletReorganizeEventListener;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Sha256Hash;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.Transaction.Purpose;
+import org.mincoinj.core.TransactionConfidence.ConfidenceType;
+import org.mincoinj.core.listeners.TransactionConfidenceEventListener;
+import org.mincoinj.utils.MonetaryFormat;
+import org.mincoinj.utils.Threading;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.listeners.WalletChangeEventListener;
+import org.mincoinj.wallet.listeners.WalletCoinsReceivedEventListener;
+import org.mincoinj.wallet.listeners.WalletCoinsSentEventListener;
+import org.mincoinj.wallet.listeners.WalletReorganizeEventListener;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
@@ -151,7 +151,7 @@ public class WalletTransactionsViewModel extends AndroidViewModel {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                 final Set<Transaction> transactions = WalletTransactionsViewModel.this.transactions.getValue();
                 final MonetaryFormat format = configFormat.getValue();
                 final Map<String, AddressBookEntry> addressBook = AddressBookEntry
@@ -235,7 +235,7 @@ public class WalletTransactionsViewModel extends AndroidViewModel {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                    org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                     postValue(wallet.getTransactions(true));
                 }
             });

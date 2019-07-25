@@ -8,38 +8,78 @@ configurations {
 }
 
 dependencies {
-    compile project(':integration-android')
-    compile 'androidx.annotation:annotation:1.0.2'
-    compile 'androidx.core:core:1.0.2'
-    compile 'androidx.fragment:fragment:1.0.0'
-    compile 'androidx.recyclerview:recyclerview:1.0.0'
-    compile 'androidx.cardview:cardview:1.0.0'
-    compile 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
-    compile 'androidx.viewpager:viewpager:1.0.0'
-    compile 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
-    compile 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    compile "androidx.sqlite:sqlite:2.0.1"
-    compile "androidx.room:room-runtime:2.0.0"
-    annotationProcessor "androidx.room:room-compiler:2.0.0"
-    compile 'org.bitcoinj:bitcoinj-core:0.15.2'
-    compile 'com.google.protobuf:protobuf-java:3.7.1'
-    compile 'com.google.guava:guava:27.1-android'
-    compile 'com.google.zxing:core:3.3.3'
-    compile 'com.squareup.okhttp3:okhttp:3.12.3'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.12.3'
-    compile 'com.squareup.moshi:moshi:1.6.0'
-    compile 'org.slf4j:slf4j-api:1.7.25'
-    compile 'com.github.tony19:logback-android:1.3.0-2'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.lambdaworks:scrypt:1.4.0'
+    implementation project(':integration-android')
+    //implementation 'androidx.annotation:annotation:1.0.2'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.core:core:1.0.2'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation "androidx.sqlite:sqlite:2.0.1"
+    //implementation "androidx.room:room-runtime:2.0.0"
+    //annotationProcessor "androidx.room:room-compiler:2.0.0"
+    implementation "androidx.room:room-runtime:2.1.0"
+    annotationProcessor "androidx.room:room-compiler:2.1.0"
+
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.60'
+    //implementation files ( '/home/steve/workspace/androiddev/dev-mincoin/core/build/libs/mincoinj-core-0.15.2.jar' )
+    implementation files ( '../core/build/libs/mincoinj-core-0.15.2.jar' )
+    implementation 'com.google.protobuf:protobuf-java:3.7.1'
+    implementation 'com.google.guava:guava:27.1-android'
+    implementation 'com.google.zxing:core:3.3.3'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.3'
+    implementation 'com.squareup.moshi:moshi:1.6.0'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'com.github.tony19:logback-android:1.3.0-2'
+    testImplementation 'junit:junit:4.12'
 }
 
-ext {
-    archivesBaseName = 'bitcoin-wallet'
-}
+//ext {
+//    archivesBaseName = 'mincoin-wallet'
+//}
+
+
+
+
+
+
+
 
 android {
     compileSdkVersion 'android-28'
     buildToolsVersion '28.0.3'
+
+    def versionPropsFile = file('version.properties')
+    def versionBuild
+
+    /*Setting default value for versionBuild which is the last incremented value stored in the file */
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        versionBuild = versionProps['VERSION_BUILD'].toInteger()
+    } else {
+        throw new FileNotFoundException("Could not read version.properties!")
+    }
+
+    /*Setting default value for versionBuild which is the last incremented value stored in the file */
+    ext.autoIncrementBuildNumber = {
+
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+        } else {
+            throw new FileNotFoundException("Could not read version.properties!")
+        }
+    }
 
     lintOptions {
         abortOnError false
@@ -48,7 +88,7 @@ android {
 
     defaultConfig {
         applicationId 'de.schildbach.wallet_test'
-        generatedDensities = ['hdpi', 'xhdpi']
+       // generatedDensities = ['hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
 
         dexOptions {
             preDexLibraries false
@@ -63,6 +103,16 @@ android {
                 cFlags '-DHAVE_CONFIG_H'
             }
         }
+
+        minSdkVersion 26
+        targetSdkVersion 28
+
+        // cryptodad Jul 2019
+        // method to automatically increment build values in manifest.xml
+        // Minimum SDK / NOT USED / MAJOR / MINOR / PATCH
+        //       26         0         00      01      01
+        versionCode 260000201 //generateVersionCode() // integer Android uses this as a downgrade / upgrade marker
+        versionName "0.2." + versionBuild + "-beta" //generateVersionName() // string displayed to users
     }
 
     buildTypes {
@@ -101,13 +151,49 @@ android {
         exclude 'META-INF/proguard/**'
         exclude 'lib/x86_64/darwin/libscrypt.dylib'
         exclude 'okhttp3/internal/publicsuffix/publicsuffixes.gz'
-        exclude 'org/bitcoinj/crypto/mnemonic/wordlist/english.txt'
-        exclude 'org/bitcoinj/crypto/cacerts'
+        exclude 'org/mincoinj/crypto/mnemonic/wordlist/english.txt'
+        exclude 'org/mincoinj/crypto/cacerts'
         exclude 'org.bitcoin.production.checkpoints.txt'
         exclude 'org.bitcoin.test.checkpoints.txt'
     }
+
+
+
+    // Hook to check if the release/debug task is among the tasks to be executed.
+    //Let's make use of it
+    gradle.taskGraph.whenReady {taskGraph ->
+        if (taskGraph.hasTask(assembleDebug)) {  /* when run debug task */
+            autoIncrementBuildNumber()
+        } else if (taskGraph.hasTask(assembleRelease)) { /* when run release task */
+            autoIncrementBuildNumber()
+        }
+    }
 }
 
+/*
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+
+// Don't use a dynamic version name. This will change the AndroidManifest.xml for
+// every build and forces instantrun to reinstall the app instead of sending the
+// diff to the device.
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch + 1}"
+
+    if (ext.versionClassifier == null && ext.isSnapshot) {
+        ext.versionClassifier = "alpha"
+    }
+
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+
+    return versionName;
+}
+*/
+/*
 task svgToPngMipmap(type: fr.avianey.androidsvgdrawable.gradle.SvgDrawableTask) {
     from = files('graphics/mipmap')
     to = file('res')
@@ -115,3 +201,4 @@ task svgToPngMipmap(type: fr.avianey.androidsvgdrawable.gradle.SvgDrawableTask) 
     outputFormat = 'PNG'
     outputType = 'mipmap'
 }
+*/

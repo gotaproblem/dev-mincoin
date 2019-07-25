@@ -294,7 +294,10 @@ public class AlertDialogsFragment extends Fragment {
     }
 
     private Dialog createVersionAlertDialog() {
-        final Installer installer = this.installer != null ? this.installer : Installer.F_DROID;
+        /* cryptodad Jul 2019 - comment out for crash */
+        //final Installer installer = this.installer != null ? this.installer : Installer.F_DROID;
+        final Installer installer = this.installer;
+
         final Intent marketIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse(installer.appStorePageFor(application).toString()));
         final Intent binaryIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BINARY_URL));

@@ -27,9 +27,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.wallet.Wallet;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.core.TransactionOutput;
+import org.mincoinj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

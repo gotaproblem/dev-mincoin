@@ -17,16 +17,16 @@
 
 package de.schildbach.wallet.ui;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.uri.BitcoinURI;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.listeners.WalletChangeEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
-import org.bitcoinj.wallet.listeners.WalletReorganizeEventListener;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.Transaction;
+import org.mincoinj.uri.BitcoinURI;
+import org.mincoinj.utils.Threading;
+import org.mincoinj.wallet.Wallet;
+import org.mincoinj.wallet.listeners.WalletChangeEventListener;
+import org.mincoinj.wallet.listeners.WalletCoinsReceivedEventListener;
+import org.mincoinj.wallet.listeners.WalletCoinsSentEventListener;
+import org.mincoinj.wallet.listeners.WalletReorganizeEventListener;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
@@ -144,7 +144,7 @@ public class WalletAddressViewModel extends AndroidViewModel {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                    org.mincoinj.core.Context.propagate(Constants.CONTEXT);
                     postValue(wallet.currentReceiveAddress());
                 }
             });

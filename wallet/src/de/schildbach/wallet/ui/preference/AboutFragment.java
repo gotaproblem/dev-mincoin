@@ -17,7 +17,7 @@
 
 package de.schildbach.wallet.ui.preference;
 
-import org.bitcoinj.core.VersionMessage;
+import org.mincoinj.core.VersionMessage;
 
 import de.schildbach.wallet.R;
 import de.schildbach.wallet.WalletApplication;
@@ -60,17 +60,25 @@ public final class AboutFragment extends PreferenceFragment {
         final PackageInfo packageInfo = application.packageInfo();
         findPreference(KEY_ABOUT_VERSION).setSummary(WalletApplication.versionLine(packageInfo));
         Installer installer = Installer.from(application);
-        if (installer == null)
-            installer = Installer.F_DROID;
+
+        /* cryptodad Jul 2019 - comment out for crash */
+        //if (installer == null)
+        //    installer = Installer.F_DROID;
+
         final Preference marketPref = findPreference(KEY_ABOUT_MARKET_APP);
-        marketPref.setTitle(getString(R.string.about_market_app_title, installer.displayName));
-        final Intent marketIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(installer.appStorePageFor(application).toString()));
-        if (packageManager.resolveActivity(marketIntent, 0) != null) {
-            marketPref.setIntent(marketIntent);
-            marketPref.setEnabled(true);
-        }
+
+        /* cryptodad Jul 2019 - comment out for crash */
+        //marketPref.setTitle(getString(R.string.about_market_app_title, installer.displayName));
+
+        /* cryptodad Jul 2019 - comment out for crash */
+        //final Intent marketIntent = new Intent(Intent.ACTION_VIEW,
+        //        Uri.parse(installer.appStorePageFor(application).toString()));
+        //if (packageManager.resolveActivity(marketIntent, 0) != null) {
+        //    marketPref.setIntent(marketIntent);
+        //    marketPref.setEnabled(true);
+        //}
+
         findPreference(KEY_ABOUT_CREDITS_BITCOINJ)
-                .setTitle(getString(R.string.about_credits_bitcoinj_title, VersionMessage.BITCOINJ_VERSION));
+                .setTitle(getString(R.string.about_credits_mincoinj_title, VersionMessage.BITCOINJ_VERSION));
     }
 }

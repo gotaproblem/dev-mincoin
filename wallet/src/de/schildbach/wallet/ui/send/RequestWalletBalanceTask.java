@@ -51,16 +51,16 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.core.SegwitAddress;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.UTXO;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptBuilder;
-import org.bitcoinj.utils.ContextPropagatingThreadFactory;
+import org.mincoinj.core.Address;
+import org.mincoinj.core.Coin;
+import org.mincoinj.core.ECKey;
+import org.mincoinj.core.LegacyAddress;
+import org.mincoinj.core.SegwitAddress;
+import org.mincoinj.core.Sha256Hash;
+import org.mincoinj.core.UTXO;
+import org.mincoinj.script.Script;
+import org.mincoinj.script.ScriptBuilder;
+import org.mincoinj.utils.ContextPropagatingThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,7 +146,7 @@ public final class RequestWalletBalanceTask {
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
+                org.mincoinj.core.Context.propagate(Constants.CONTEXT);
 
                 final Address legacyAddress = LegacyAddress.fromKey(Constants.NETWORK_PARAMETERS, key);
                 final Script[] outputScripts;
